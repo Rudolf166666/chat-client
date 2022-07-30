@@ -9,3 +9,10 @@ export const Wrapper = styled.div`
   background-position: center;
   background-repeat: no-repeat;
 `;
+
+export const PageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+`;
