@@ -28,8 +28,6 @@ export const PreviewForm = ({ onHandleOpenForm }) => {
           </Button>
         </RegistrationPart>
       </PathsWrapper>
-      {/* <button onClick={onHandleOpenForm("login")}>login</button>
-      <button onClick={onHandleOpenForm("registration")}>registration</button> */}
     </Wrapper>
   );
 };

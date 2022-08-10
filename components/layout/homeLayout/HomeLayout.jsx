@@ -20,7 +20,6 @@ export const HomeLayout = () => {
     setIsOpen((prev) => ({ ...prev, [val]: false, [next]: true }));
     setIsVisible((prev) => ({ ...prev, [next]: true }));
   };
-  console.log(isVisible, isOpen);
   return (
     <Wrapper>
       {isVisible.preview && (
