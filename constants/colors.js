@@ -4,4 +4,7 @@ export default {
   text: "#111111",
   dark: "#14121c",
   darkBlue: "#1a234f",
+  warning: "#caba4c",
+  success: "#109d28",
+  error: "#dc4d4d",
 };
