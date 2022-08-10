@@ -1,5 +1,10 @@
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import colors from "../../../constants/colors";
+import { useNotification } from "../../../hooks/useNotification";
+import { updateUserInfo } from "../../../redux/user/slice";
+import { useRegistrationMutation } from "../../../redux/user/userAip";
 import { Button } from "../../common/button";
 import { Input } from "../../common/input";
 import { Wrapper } from "../Form.styled";
@@ -11,6 +16,10 @@ import {
 } from "./Registration.styled";
 
 export const RegistrationForm = ({ onHandleOpenForm }) => {
+  const [register] = useRegistrationMutation();
+  const { openNotification, MESSAGE_TYPES } = useNotification();
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [data, setData] = useState({
     email: "",
     fullName: "",
@@ -20,6 +29,24 @@ export const RegistrationForm = ({ onHandleOpenForm }) => {
     (val) =>
     ({ target }) =>
       setData((prev) => ({ ...prev, [val]: target.value }));
+
+  const onHandleRegister = () => {
+    return new Promise((resolve, reject) => {
+      try {
+        resolve(register(data).unwrap());
+      } catch (error) {
+        reject(error);
+      }
+    })
+      .then((res) => {
+        dispatch(updateUserInfo(res.user));
+        localStorage.setItem("access_token", res.accessToken);
+        localStorage.setItem("refresh_token", res.refreshToken);
+        openNotification("You successful register", MESSAGE_TYPES.SUCCESS);
+        router.push("/chats");
+      })
+      .catch((err) => openNotification(err.data.message, MESSAGE_TYPES.ERROR));
+  };
   return (
     <Wrapper>
       <RegistrationWrapper>
@@ -48,7 +75,11 @@ export const RegistrationForm = ({ onHandleOpenForm }) => {
           />
         </InputWrapper>
         <ButtonWrapper>
-          <Button color={colors.secondary} title="Create account" />
+          <Button
+            onHandleClick={onHandleRegister}
+            color={colors.secondary}
+            title="Create account"
+          />
         </ButtonWrapper>
         <TextInfo>
           {"Oh, did you forget that you have already registered? Don't worry"},

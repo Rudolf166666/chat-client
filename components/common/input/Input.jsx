@@ -15,7 +15,6 @@ export const Input = ({
     ref.current.focus();
   };
   const onHandleBlur = () => {
-    console.log(!!value);
     setIsPressed(!value);
   };
   return (
